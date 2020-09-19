@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -58,6 +59,11 @@ public class AirMapUrlTileManager extends ViewGroupManager<AirMapUrlTile> {
   @ReactProp(name = "flipY", defaultBoolean = false)
   public void setFlipY(AirMapUrlTile view, boolean flipY) {
     view.setFlipY(flipY);
+  }
+
+  @ReactProp(name = "headers")
+  public void setRequestProperties(AirMapUrlTile view, ReadableMap headers) {
+    view.setRequestProperties(headers);
   }
 
 }
