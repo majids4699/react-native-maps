@@ -29,16 +29,14 @@ public class AirMapUrlTile extends AirMapFeature {
       this.urlTemplate = urlTemplate;
     }
 
-  class AIRMapUrlTileProvider extends UrlTileProvider {
-    private String urlTemplate;
+    class AIRMapUrlTileProvider extends UrlTileProvider {
 
-    public AIRMapUrlTileProvider(int width, int height, String urlTemplate) {
-      super(width, height);
-      this.urlTemplate = urlTemplate;
-    }
+      AIRMapUrlTileProvider(int width, int height) {
+        super(width, height);
+      }
 
-    @Override
-    public synchronized URL getTileUrl(int x, int y, int zoom) {
+      @Override
+      public synchronized URL getTileUrl(int x, int y, int zoom) {
         return getUrl(x, y, zoom, urlTemplate);
       }
     }
@@ -68,7 +66,7 @@ public class AirMapUrlTile extends AirMapFeature {
           //connection.addRequestProperty("Authorization", "Basic xxxxxxxxxxxxxxx-token");
           for (Map.Entry<String, Object> entry : requestProperties.toHashMap().entrySet()) {
             connection.addRequestProperty(entry.getKey(), (String) entry.getValue());
-      }
+          }
 
           connection.connect();
           in = connection.getInputStream();
@@ -107,9 +105,9 @@ public class AirMapUrlTile extends AirMapFeature {
 
     private String getTileUrl(int x, int y, int zoom, String urlTemplate) {
       return urlTemplate
-          .replace("{x}", Integer.toString(x))
-          .replace("{y}", Integer.toString(y))
-          .replace("{z}", Integer.toString(zoom));
+        .replace("{x}", Integer.toString(x))
+        .replace("{y}", Integer.toString(y))
+        .replace("{z}", Integer.toString(zoom));
     }
 
     private URL getUrl(int x, int y, int zoom, String urlTemplate) {
@@ -120,11 +118,11 @@ public class AirMapUrlTile extends AirMapFeature {
 
       String s = getTileUrl(x, y, zoom, urlTemplate);
 
-      if(AirMapUrlTile.this.maximumZ > 0 && zoom > maximumZ) {
+      if (AirMapUrlTile.this.maximumZ > 0 && zoom > maximumZ) {
         return null;
       }
 
-      if(AirMapUrlTile.this.minimumZ > 0 && zoom < minimumZ) {
+      if (AirMapUrlTile.this.minimumZ > 0 && zoom < minimumZ) {
         return null;
       }
 
@@ -151,7 +149,7 @@ public class AirMapUrlTile extends AirMapFeature {
     super(context);
   }
 
-  public void setUrlTemplate(String urlTemplate) {
+  void setUrlTemplate(String urlTemplate) {
     this.urlTemplate = urlTemplate;
     if (tileProvider != null) {
       tileProvider.setUrlTemplate(urlTemplate);
@@ -168,28 +166,28 @@ public class AirMapUrlTile extends AirMapFeature {
     }
   }
 
-  public void setMaximumZ(float maximumZ) {
+  void setMaximumZ(float maximumZ) {
     this.maximumZ = maximumZ;
     if (tileOverlay != null) {
       tileOverlay.clearTileCache();
     }
   }
 
-  public void setMinimumZ(float minimumZ) {
+  void setMinimumZ(float minimumZ) {
     this.minimumZ = minimumZ;
     if (tileOverlay != null) {
       tileOverlay.clearTileCache();
     }
   }
 
-  public void setFlipY(boolean flipY) {
+  void setFlipY(boolean flipY) {
     this.flipY = flipY;
     if (tileOverlay != null) {
       tileOverlay.clearTileCache();
     }
   }
 
-  public TileOverlayOptions getTileOverlayOptions() {
+  private TileOverlayOptions getTileOverlayOptions() {
     if (tileOverlayOptions == null) {
       tileOverlayOptions = createTileOverlayOptions();
     }
